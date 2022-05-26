@@ -14,7 +14,7 @@ class SpalshScreen extends StatelessWidget {
       // Navigator.of(context)
       // .push(MaterialPageRoute(builder: (context) => LoginPage() ));
 
-      Navigator.of(context).pushNamed(LoginPage.route);
+      Navigator.of(context).pushReplacementNamed(LoginPage.route);
     });
 
     return Scaffold(

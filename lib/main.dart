@@ -1,4 +1,6 @@
 import 'package:bootcamp_project/view/login_page.dart';
+import 'package:bootcamp_project/view/main_page.dart';
+import 'package:bootcamp_project/view/register_page.dart';
 import 'package:bootcamp_project/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +32,9 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         "/" : (context) => const SpalshScreen(),
-        LoginPage.route :(context) => const LoginPage()
+        LoginPage.route :(context) => const LoginPage(),
+        RegisterPage.route :(context) => const RegisterPage(),
+        MainPage.route :(context) => const MainPage(),
         },
     );
   }

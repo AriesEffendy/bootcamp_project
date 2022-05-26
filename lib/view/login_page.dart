@@ -1,5 +1,5 @@
-
 import 'package:bootcamp_project/constants/r.dart';
+import 'package:bootcamp_project/view/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(32.0),
         child: Column(
           children: [
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -50,45 +51,46 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Spacer(),
             ButtonLogin(
-              backgroundColor: Colors.white, 
-              borderColor: R.colors.primary, 
-              child: 
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(R.assets.icGoogle),
-                      const SizedBox(width: 15),
-                      Text(
-                        R.strings.loginWithGoogle,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: R.colors.blackLogin,
-                        ),
-                      ),
-                    ],
+              backgroundColor: Colors.white,
+              borderColor: R.colors.primary,
+              onTap: () {
+                Navigator.of(context).pushNamed(RegisterPage.route);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(R.assets.icGoogle),
+                  const SizedBox(width: 15),
+                  Text(
+                    R.strings.loginWithGoogle,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: R.colors.blackLogin,
+                    ),
                   ),
+                ],
+              ),
             ),
-            
             ButtonLogin(
-              backgroundColor: Colors.black, 
-              borderColor: Colors.black, 
-              child: 
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(R.assets.icApple),
-                      const SizedBox(width: 15),
-                      Text(
-                        R.strings.loginWithApple,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+              backgroundColor: Colors.black,
+              borderColor: Colors.black,
+              onTap: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(R.assets.icApple),
+                  const SizedBox(width: 15),
+                  Text(
+                    R.strings.loginWithApple,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
                   ),
+                ],
+              ),
             ),
           ],
         ),
@@ -99,15 +101,17 @@ class _LoginPageState extends State<LoginPage> {
 
 class ButtonLogin extends StatelessWidget {
   const ButtonLogin({
-    Key? key, 
+    Key? key,
     required this.backgroundColor,
-    required this.child, 
+    required this.child,
     required this.borderColor,
+    required this.onTap,
   }) : super(key: key);
 
   final Color backgroundColor;
   final Widget child;
-  final Color borderColor; 
+  final Color borderColor;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -119,12 +123,12 @@ class ButtonLogin extends StatelessWidget {
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: borderColor ),
+            side: BorderSide(color: borderColor),
           ),
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 50),
         ),
-        onPressed: () {},
-        child: child, 
+        onPressed: onTap,
+        child: child,
       ),
     );
   }
