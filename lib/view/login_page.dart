@@ -29,12 +29,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Image.asset(R.assets.imgLogin),
-            SizedBox(height: 35),
+            const SizedBox(height: 35),
             Text(
               R.strings.welcome,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
               ),
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                 color: R.colors.greySub,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             ButtonLogin(
               backgroundColor: Colors.white, 
               borderColor: R.colors.primary, 
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(R.assets.icGoogle),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       Text(
                         R.strings.loginWithGoogle,
                         style: TextStyle(
@@ -78,10 +78,10 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(R.assets.icApple),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       Text(
                         R.strings.loginWithApple,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
