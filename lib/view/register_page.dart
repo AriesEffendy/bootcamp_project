@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:bootcamp_project/constants/r.dart';
 import 'package:bootcamp_project/view/login_page.dart';
@@ -18,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String gender = "Laki-Laki";
   List<String> calssSlta = ["10", "11", "12"];
   String selectedClass = "10";
+  final emailControler = TextEditingController();
 
   onTapGender(Gender genderInput) {
     if (genderInput == Gender.lakiLaki) {
@@ -45,27 +45,26 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
-      bottomNavigationBar: 
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom:20.0),
-                  child: ButtonLogin(
-                    backgroundColor: R.colors.primary,
-                    borderColor: R.colors.primary,
-                    onTap: () {
-                      Navigator.of(context).pushNamed(MainPage.route);
-                    },
-                    child: Text(
-                      R.strings.daftar,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: ButtonLogin(
+            backgroundColor: R.colors.primary,
+            borderColor: R.colors.primary,
+            onTap: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(MainPage.route, (context) => false);
+            },
+            child: Text(
+              R.strings.daftar,
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -73,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RegisterTextField(
+                controller: emailControler,
                 title: 'Email anda',
                 hintText: 'Email',
               ),
@@ -161,20 +161,20 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    border: Border.all(color: R.colors.greyBorder),
-                  ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                  border: Border.all(color: R.colors.greyBorder),
+                ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                       value: selectedClass,
                       items: calssSlta
                           .map(
                             (e) => DropdownMenuItem<String>(
-                            child: Text(e),
-                            value: e,
-                          ),
+                              child: Text(e),
+                              value: e,
+                            ),
                           )
                           .toList(),
                       onChanged: (String? val) {
@@ -189,7 +189,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: 'Nama Sekolah',
               ),
               // Spacer(),
-
             ],
           ),
         ),
@@ -203,10 +202,12 @@ class RegisterTextField extends StatelessWidget {
     Key? key,
     required this.title,
     required this.hintText,
+    this.controller,
   }) : super(key: key);
 
   final String title;
   final String hintText;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -229,6 +230,7 @@ class RegisterTextField extends StatelessWidget {
             border: Border.all(color: R.colors.greyBorder),
           ),
           child: TextField(
+            controller: controller,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
