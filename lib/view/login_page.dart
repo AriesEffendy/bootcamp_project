@@ -1,6 +1,7 @@
 import 'package:bootcamp_project/constants/r.dart';
 import 'package:bootcamp_project/view/register_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: R.colors.grey,
       body: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -43,11 +44,13 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               R.strings.loginDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
+              style: 
+              GoogleFonts.poppins().copyWith(
+                fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: R.colors.greySub,
               ),
+              
             ),
             const Spacer(),
             ButtonLogin(
@@ -64,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     R.strings.loginWithGoogle,
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: R.colors.blackLogin,
                     ),
@@ -84,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     R.strings.loginWithApple,
                     style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
