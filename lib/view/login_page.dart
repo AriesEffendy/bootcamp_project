@@ -1,7 +1,12 @@
 import 'package:bootcamp_project/constants/r.dart';
+import 'package:bootcamp_project/constants/repository/auth_api.dart';
+import 'package:bootcamp_project/models/user_by_email.dart';
+import 'package:bootcamp_project/view/main_page.dart';
 import 'package:bootcamp_project/view/register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +17,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,20 +67,38 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               R.strings.loginDescription,
               textAlign: TextAlign.center,
-              style: 
-              GoogleFonts.poppins().copyWith(
+              style: GoogleFonts.poppins().copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: R.colors.greySub,
               ),
-              
             ),
             const Spacer(),
             ButtonLogin(
               backgroundColor: Colors.white,
               borderColor: R.colors.primary,
-              onTap: () {
-                Navigator.of(context).pushNamed(RegisterPage.route);
+              onTap: () async {
+                await signInWithGoogle();
+
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  final dataUser = await AuthApi().getUserEmail(user.email);
+                  if (dataUser != null) {
+                    final data = UserByEmail.fromJson(dataUser);
+                    if (data.status == 1) {
+                    Navigator.of(context).pushNamed(MainPage.route);
+                      
+                    } else {
+                      
+                    Navigator.of(context).pushNamed(RegisterPage.route);
+                    }
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Gagal Masuk"),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
