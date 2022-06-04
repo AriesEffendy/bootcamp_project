@@ -1,6 +1,7 @@
 import 'package:bootcamp_project/constants/r.dart';
-import 'package:bootcamp_project/constants/repository/auth_api.dart';
+import 'package:bootcamp_project/models/network_response.dart';
 import 'package:bootcamp_project/models/user_by_email.dart';
+import 'package:bootcamp_project/repository/auth_api.dart';
 import 'package:bootcamp_project/view/main_page.dart';
 import 'package:bootcamp_project/view/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,15 +83,13 @@ class _LoginPageState extends State<LoginPage> {
 
                 final user = FirebaseAuth.instance.currentUser;
                 if (user != null) {
-                  final dataUser = await AuthApi().getUserEmail(user.email);
-                  if (dataUser != null) {
-                    final data = UserByEmail.fromJson(dataUser);
+                  final dataUser = await AuthApi().getUserEmail();
+                  if (dataUser.status == Status.success) {
+                    final data = UserByEmail.fromJson(dataUser.data!);
                     if (data.status == 1) {
-                    Navigator.of(context).pushNamed(MainPage.route);
-                      
+                      Navigator.of(context).pushNamed(MainPage.route);
                     } else {
-                      
-                    Navigator.of(context).pushNamed(RegisterPage.route);
+                      Navigator.of(context).pushNamed(RegisterPage.route);
                     }
                   }
                 } else {
