@@ -12,8 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(const MyApp());
 }
 
@@ -44,14 +44,13 @@ class MyApp extends StatelessWidget {
       // home: const SpalshScreen(),
       initialRoute: "/",
       routes: {
-        "/" : (context) => const SpalshScreen(),
-        LoginPage.route :(context) => const LoginPage(),
-        RegisterPage.route :(context) => const RegisterPage(),
-        MainPage.route :(context) => const MainPage(),
-        MapelPage.route :(context) => const MapelPage(),
-        PaketSoalPage.route :(context) => const PaketSoalPage(),
-        },
+        "/": (context) => const SpalshScreen(),
+        LoginPage.route: (context) => const LoginPage(),
+        RegisterPage.route: (context) => const RegisterPage(),
+        MainPage.route: (context) => const MainPage(),
+        // MapelPage.route :(context) => const MapelPage(),
+        PaketSoalPage.route: (context) => const PaketSoalPage(),
+      },
     );
   }
 }
-

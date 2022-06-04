@@ -5,7 +5,7 @@ import 'package:bootcamp_project/helpers/user_email.dart';
 import 'package:bootcamp_project/models/network_response.dart';
 import 'package:dio/dio.dart';
 
-class AuthApi {
+class LatihanSoalApi {
   Dio dioApi() {
     BaseOptions options = BaseOptions(
       baseUrl: ApiUrl.baseUrl,
@@ -50,12 +50,23 @@ class AuthApi {
     }
   }
 
-  Future<NetworkResponse> getUserEmail() async {
+  Future<NetworkResponse> getMapel() async {
     final result = await _getRequest(
-      endpoint: ApiUrl.users,
+      endpoint: ApiUrl.latihanMapel,
       param: {
-        "email": UserEmail.getUserEmail(),
+        "major_name": "IPA",
+        "user_email": UserEmail.getUserEmail(),
       },
+    );
+    return result;
+  }
+
+  Future<NetworkResponse> getBanner() async {
+    final result = await _getRequest(
+      endpoint: ApiUrl.banner,
+      // param: {
+      //   "limit" : "IPA",
+      // },
     );
     return result;
   }
