@@ -1,15 +1,35 @@
 import 'package:bootcamp_project/constants/r.dart';
+import 'package:bootcamp_project/models/network_response.dart';
+import 'package:bootcamp_project/models/paket_soal_list.dart';
+import 'package:bootcamp_project/repository/latihan_soal_api.dart';
 import 'package:flutter/material.dart';
 
 class PaketSoalPage extends StatefulWidget {
-  const PaketSoalPage({super.key});
+  const PaketSoalPage({super.key, required this.id});
   static String route = "Paket_soal_page";
+  final String id;
 
   @override
   State<PaketSoalPage> createState() => _PaketSoalPageState();
 }
 
 class _PaketSoalPageState extends State<PaketSoalPage> {
+  PaketSoalList? paketSoalList;
+  getPaketSoal() async {
+    final mapelREsult = await LatihanSoalApi().getPaketSoal(widget.id);
+    if (mapelREsult.status == Status.success) {
+      paketSoalList = PaketSoalList.fromJson(mapelREsult.data!);
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getPaketSoal();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,24 +42,49 @@ class _PaketSoalPageState extends State<PaketSoalPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Pilih Paket Soal",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              ),),
-            Expanded(
-              child: GridView.count(
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                crossAxisCount: 2,
-                childAspectRatio: 3/2,
-                children: [
-                  paketSoalWidget(),
-                  paketSoalWidget(),
-                  paketSoalWidget(),
-                  paketSoalWidget(),
-                ],
-                ),
+            Text(
+              "Pilih Paket Soal",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            Expanded(
+                child: paketSoalList == null
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : SingleChildScrollView(
+                        child: Wrap(
+                          children: List.generate(paketSoalList!.data!.length,
+                              (index) {
+                            final currentPaketSoal =
+                                paketSoalList!.data![index];
+                            return Container(
+                                padding: EdgeInsets.all(3),
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: paketSoalWidget(data: currentPaketSoal));
+                          }).toList(),
+                        ),
+                      )
+
+                // GridView.count(
+                //     mainAxisSpacing: 10,
+                //     crossAxisSpacing: 10,
+                //     crossAxisCount: 2,
+                //     childAspectRatio: 4 / 3,
+                //     children:
+                //         List.generate(paketSoalList!.data!.length, (index) {
+                //       final currentPaketSoal = paketSoalList!.data![index];
+                //       return paketSoalWidget(data: currentPaketSoal);
+                //     }).toList()
+                // [
+                //   paketSoalWidget(),
+                //   paketSoalWidget(),
+                //   paketSoalWidget(),
+                //   paketSoalWidget(),
+                // ],
+                //     ),
+                ),
           ],
         ),
       ),
@@ -50,15 +95,17 @@ class _PaketSoalPageState extends State<PaketSoalPage> {
 class paketSoalWidget extends StatelessWidget {
   const paketSoalWidget({
     Key? key,
+    required this.data,
   }) : super(key: key);
+  final PaketSoalData data;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
       // margin: const EdgeInsets.all(13.0),
       padding: const EdgeInsets.all(13.0),
       child: Column(
@@ -70,21 +117,24 @@ class paketSoalWidget extends StatelessWidget {
               color: Colors.blue.withOpacity(0.2),
             ),
             padding: EdgeInsets.all(12),
-            child: Image.asset(R.assets.icNote,
-            width: 14,),
+            child: Image.asset(
+              R.assets.icNote,
+              width: 14,
+            ),
           ),
           SizedBox(height: 4),
-          Text("Aljabar",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          Text(
+            data.exerciseTitle!,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          ),
-          Text("0/0 Paket Soal",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 9,
-            color: R.colors.greySubHome
-          ),
+          Text(
+            "${data.jumlahDone}/${data.jumlahSoal} Paket Soal",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 9,
+                color: R.colors.greySubHome),
           ),
         ],
       ),
